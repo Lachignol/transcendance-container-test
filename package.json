@@ -2,7 +2,7 @@
   "name": "transcendance",
   "version": "1.0.0",
   "description": "",
-  "main": "server.ts",
+  "main": "./src/server.ts",
   "type": "module",
   "dependencies": {
     "@fastify/view": "^11.1.1",
@@ -52,9 +52,9 @@
     "toad-cache": "^3.7.0"
   },
   "scripts": {
-    "dev": "nodemon --exec ts-node server.ts",
+    "dev": "nodemon --exec ts-node ./src/server.ts",
     "build": "tsc -p tsconfig.json",
-    "start": "node server.ts"
+    "start": "node ./src/server.ts"
   },
   "keywords": [],
   "author": "",

@@ -7,6 +7,9 @@ import { PrismaClient } from "@prisma/client";
 import AutoLoad from '@fastify/autoload'
 
 
+// Recuperation des variables de l'env
+//
+const { ADDRESS = 'localhost', PORT = '3000' } = process.env;
 // On obtient le chemin complet du fichier courant
 const __filename = fileURLToPath(import.meta.url);
 
@@ -34,8 +37,9 @@ app.register(fastifyView, {
 // On ajoute a notre instance que l'on exporte par la suuite notre client prisma
 app.decorate('prisma', prisma);
 
+// Permet d'ajouter automatiquement les routes qui sont presentes dans le repertoire routes
 app.register(AutoLoad, {
-  dir: path.join(__dirname, 'src/routes')
+  dir: path.join(__dirname, 'routes')
 })
 
 // Permet d'ajouter un client a la mano pour les test
@@ -52,12 +56,12 @@ app.register(AutoLoad, {
 // addOneUser()
 
 // Run the server!
-app.listen({ port: 3000 , host: '0.0.0.0' }, function (err, address) {
+app.listen({ port: parseInt(PORT,10) , host: ADDRESS }, function (err, address) {
   if (err) {
     app.log.error(err)
     process.exit(1)
   }
-  // Server is now listening on ${address}
+ console.log(`Server is now listening on ${address}`)
 })
 
 export default app ;
