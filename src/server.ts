@@ -9,7 +9,6 @@ import formbody from '@fastify/formbody'
 
 
 // Recuperation des variables de l'env
-//
 const { ADDRESS = 'localhost', PORT = '3000' } = process.env;
 // On obtient le chemin complet du fichier courant
 const __filename = fileURLToPath(import.meta.url);
