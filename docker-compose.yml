@@ -1,0 +1,13 @@
+
+services:
+  app:
+    build: .
+    # A ENLEVER POUR LA PROD
+    volumes:
+      - ./:/usr/src/app  # montage du dossier de travail local dans le conteneur
+      - /usr/src/app/node_modules  # exclure le dossier node_modules pour ne pas écraser
+    ports:
+      - "3000:3000"  # exposer le port 3000
+    # A METTRE POUR LA PROD
+    # command: npm start  
+    # command: npm run dev  # HOT RELOAD POUR LE DEV (A ENLEVER)
