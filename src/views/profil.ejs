@@ -3,20 +3,27 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+  	<script src="https://cdn.tailwindcss.com"></script>
+	<title>Profil page</title>
 </head>
-<body>
+<body class="bg-gray-100">
 
-<h1>PROFIL</h1>
+  <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+    <div class="flex items-center space-x-6">
+      <img class="w-24 h-24 rounded-full object-cover" src="https://i.pravatar.cc/150?img=6" alt="Avatar utilisateur"/>
+      <div>
+	<% if (User) { %>
+         <h1 class="text-2xl font-bold text-gray-900"><%= User.name %></h1>
+        <p class="text-gray-600"><%= User.name %></p>
+        <p class="text-gray-600"><%= User.email %></p>
+	<% } else { %>  
+	   <li>not found</li>
+	<% } %>
+      </div>
+    </div>
 
-<% if (User) { %>
-  <li><%= User.name %></li>
-  <li><%= User.email %></li>
-<% } else { %>  
-   <li>not found</li>
-<% } %>
+    </div>
 
-	
 </body>
 </html>
 

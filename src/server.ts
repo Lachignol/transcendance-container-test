@@ -5,6 +5,7 @@ import ejs from 'ejs';
 import { fileURLToPath } from 'url';
 import { PrismaClient } from "@prisma/client";
 import AutoLoad from '@fastify/autoload'
+import formbody from '@fastify/formbody'
 
 
 // Recuperation des variables de l'env
@@ -22,7 +23,8 @@ const app = fastify({ logger: true })
 // On cree notre client prisma
 const prisma = new PrismaClient();
 
-
+// Pour lire les formulaire
+app.register(formbody);
 // On enregistre pour notre moteur de template le repertoire ou chercher les fichiers
 app.register(fastifyView, {
   engine: {
@@ -32,7 +34,6 @@ app.register(fastifyView, {
   viewExt: 'ejs',
   // layout: 'layout.ejs', // facultatif, si vous avez un layout commun
 });
-
 
 // On ajoute a notre instance que l'on exporte par la suuite notre client prisma
 app.decorate('prisma', prisma);
