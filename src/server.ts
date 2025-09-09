@@ -8,7 +8,7 @@ import AutoLoad from '@fastify/autoload'
 import formbody from '@fastify/formbody'
 
 
-// Recuperation des variables de l'env
+// Recuperaion des variables de l'env
 const { ADDRESS = 'localhost', PORT = '3000' } = process.env;
 // On obtient le chemin complet du fichier courant
 const __filename = fileURLToPath(import.meta.url);
@@ -26,12 +26,12 @@ const prisma = new PrismaClient();
 app.register(formbody);
 // On enregistre pour notre moteur de template le repertoire ou chercher les fichiers
 app.register(fastifyView, {
-  engine: {
-    ejs,
-  },
-  root: path.join(__dirname, 'views'),
-  viewExt: 'ejs',
-  // layout: 'layout.ejs', // facultatif, si vous avez un layout commun
+	engine: {
+		ejs,
+	},
+	root: path.join(__dirname, 'views'),
+	viewExt: 'ejs',
+	// layout: 'layout.ejs', // facultatif, si vous avez un layout commun
 });
 
 // On ajoute a notre instance que l'on exporte par la suuite notre client prisma
@@ -39,7 +39,7 @@ app.decorate('prisma', prisma);
 
 // Permet d'ajouter automatiquement les routes qui sont presentes dans le repertoire routes
 app.register(AutoLoad, {
-  dir: path.join(__dirname, 'routes')
+	dir: path.join(__dirname, 'routes')
 })
 
 // Permet d'ajouter un client a la mano pour les test
@@ -56,13 +56,13 @@ app.register(AutoLoad, {
 // addOneUser()
 
 // Run the server!
-app.listen({ port: parseInt(PORT,10) , host: ADDRESS }, function (err, address) {
-  if (err) {
-    app.log.error(err)
-    process.exit(1)
-  }
- console.log(`Server is now listening on ${address}`)
+app.listen({ port: parseInt(PORT, 10), host: ADDRESS }, function(err, address) {
+	if (err) {
+		app.log.error(err)
+		process.exit(1)
+	}
+	console.log(`Server is now listening on ${address}`)
 })
 
-export default app ;
+export default app;
 
