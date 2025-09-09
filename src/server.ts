@@ -1,11 +1,12 @@
 import path from 'path';
 import fastify from 'fastify';
-import fastifyView from '@fastify/view';
-import ejs from 'ejs';
+import fastifyStatic from '@fastify/static';
+import fastifyPrisma from '@joggr/fastify-prisma';
 import { fileURLToPath } from 'url';
 import { PrismaClient } from "@prisma/client";
 import AutoLoad from '@fastify/autoload'
 import formbody from '@fastify/formbody'
+import cors from '@fastify/cors'
 
 
 // Recuperaion des variables de l'env
@@ -19,23 +20,26 @@ const __dirname = path.dirname(__filename);
 // On apelle notre instance app et on active le logger
 const app = fastify({ logger: true })
 
+
+await app.register(cors, {
+	// put your options here
+})
 // On cree notre client prisma
 const prisma = new PrismaClient();
 
-// Pour lire les formulaire
-app.register(formbody);
-// On enregistre pour notre moteur de template le repertoire ou chercher les fichiers
-app.register(fastifyView, {
-	engine: {
-		ejs,
-	},
-	root: path.join(__dirname, 'views'),
-	viewExt: 'ejs',
-	// layout: 'layout.ejs', // facultatif, si vous avez un layout commun
+// Permet d'avoir prisma partout en typescript
+await app.register(fastifyPrisma, {
+	client: prisma,
 });
 
-// On ajoute a notre instance que l'on exporte par la suuite notre client prisma
-app.decorate('prisma', prisma);
+// Pour lire les formulaire
+app.register(formbody);
+
+// Definition de repertoire static
+app.register(fastifyStatic, {
+	root: path.join(__dirname, 'public'), // chemin absolu vers dossier public
+	prefix: '/', // Les fichiers sont accessibles à la racine (ex: /index.html)
+});
 
 // Permet d'ajouter automatiquement les routes qui sont presentes dans le repertoire routes
 app.register(AutoLoad, {
@@ -55,7 +59,7 @@ app.register(AutoLoad, {
 //
 // addOneUser()
 
-// Run the server!
+// met le serveur en ecoute 
 app.listen({ port: parseInt(PORT, 10), host: ADDRESS }, function(err, address) {
 	if (err) {
 		app.log.error(err)

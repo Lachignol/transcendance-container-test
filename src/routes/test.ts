@@ -1,15 +1,8 @@
-
 import type { FastifyInstance } from 'fastify';
+import { test } from '../controllers/test.ts'
 
-const route = async (app: FastifyInstance) => {
-
-
-app.get('/test', async (request, reply) => {
-return   reply.view('index', { title: 'Arthur mobutou' ,age: 'test'});
-});
-
+export default async (app: FastifyInstance) => {
+	app.get('/', test);
 
 }
 
-
-export default route;
