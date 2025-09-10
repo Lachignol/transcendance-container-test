@@ -1,6 +1,6 @@
+import type { FastifyRequest, FastifyReply } from 'fastify';
 
-
-const getUserById = async (request, reply) => {
+const getUserById = async (request: FastifyRequest, reply: FastifyReply) => {
 	const { idstr } = request.params;
 	const id = parseInt(idstr, 10);
 	if (isNaN(id)) {
@@ -10,11 +10,11 @@ const getUserById = async (request, reply) => {
 	return reply.status(200).send(User);
 };
 
-const sendFormCreateUser = async (request, reply) => {
+const sendFormCreateUser = async (request: FastifyRequest, reply: FastifyReply) => {
 	return reply.sendFile('views/createUser.html');
 };
 
-const createUser = async (request, reply) => {
+const createUser = async (request: FastifyRequest, reply: FastifyReply) => {
 	try {
 		const { email, name } = request.body
 
@@ -40,7 +40,7 @@ const createUser = async (request, reply) => {
 	}
 };
 
-const deleteUser = async (request, reply) => {
+const deleteUser = async (request: FastifyRequest, reply: FastifyReply) => {
 	const { idstr } = request.params;
 	const id = parseInt(idstr, 10);
 
@@ -57,17 +57,10 @@ const deleteUser = async (request, reply) => {
 
 
 
-const updateUser = async (request, reply) => {
-	const idstr = request.body.id;
-	const id = parseInt(idstr, 10);
-	let User;
-
-	if (isNaN(id)) {
-		return reply.status(400).send({ error: 'L\'ID doit être un nombre entier' });
-	}
-
+const updateUser = async (request: FastifyRequest, reply: FastifyReply) => {
 	try {
-		const { email, name } = request.body
+		let User;
+		const { id, email, name } = request.body
 
 		if (!email && !name) {
 			return reply.status(400).send({ error: 'nothing to update' })

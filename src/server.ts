@@ -35,6 +35,7 @@ await app.register(fastifyPrisma, {
 // Pour lire les formulaire
 app.register(formbody);
 
+
 // Definition de repertoire static
 app.register(fastifyStatic, {
 	root: path.join(__dirname, 'public'), // chemin absolu vers dossier public
@@ -58,6 +59,7 @@ app.register(AutoLoad, {
 // }
 //
 // addOneUser()
+
 
 // met le serveur en ecoute 
 app.listen({ port: parseInt(PORT, 10), host: ADDRESS }, function(err, address) {

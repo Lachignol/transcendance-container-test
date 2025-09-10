@@ -1,0 +1,46 @@
+//Faire toutes les validation des champs necessaire ici en amont 
+//ici length basse juste pour tester
+
+export function makeCreateUserValidationForm() {
+	return {
+		body: {
+			type: 'object',
+			properties: {
+				name: { type: 'string', maxLength: 8 },
+				email: { type: 'string' },
+			},
+			required: ['name', 'email'],
+			additionalProperties: false,
+		}
+	};
+}
+
+
+export function makeUpdateUserValidationForm() {
+	return {
+		body: {
+			type: 'object',
+			properties: {
+				id: { type: 'integer' },
+				name: { type: 'string', maxLength: 8 },
+				email: { type: 'string' },
+			},
+			required: ['id', 'name', 'email'],
+			additionalProperties: false,
+		}
+	};
+}
+
+export function makeGetUserValidationParams() {
+	return {
+		params: {
+			type: 'object',
+			properties: {
+				id: { type: 'integer' },
+			},
+			required: ['id'],
+			additionalProperties: false,
+		}
+	};
+}
+
