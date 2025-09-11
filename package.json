@@ -16,6 +16,7 @@
     "ajv-formats": "^3.0.1",
     "atomic-sleep": "^1.0.0",
     "avvio": "^9.1.0",
+    "bcrypt": "^6.0.0",
     "cookie": "^1.0.2",
     "dequal": "^2.0.3",
     "ejs": "^3.1.10",

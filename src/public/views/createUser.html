@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Tester API Utilisateurs</title>
+	<script src="/createUser.js"></script>
 </head>
 
 <body>
@@ -13,6 +14,7 @@
 	<form id="createUserForm" method="post" action="/createUser/">
 		<label>Nom : <input type="text" name="name" required /></label><br />
 		<label>Email : <input type="email" name="email" required /></label><br />
+		<label>Password : <input type="password" name="password" required /></label><br />
 		<button type="submit">Créer</button>
 	</form>
 
@@ -28,22 +30,9 @@
 		<label>ID : <input type="number" name="id" required /></label><br />
 		<label>Nouveau nom : <input type="text" name="name" /></label><br />
 		<label>Nouvel email : <input type="email" name="email" /></label><br />
+		<label>Nouvel password : <input type="password" name="password" /></label><br />
 		<button type="submit">Modifier</button>
 	</form>
-
-	<script>
-		async function fetchUser() {
-			const userId = document.getElementById('userId').value;
-			if (!userId) return;
-			const response = await fetch('/user/' + userId);
-			if (response.ok) {
-				const user = await response.json();
-				document.getElementById('userResult').textContent = JSON.stringify(user, null, 2);
-			} else {
-				document.getElementById('userResult').textContent = 'Erreur: ' + response.statusText;
-			}
-		}
-	</script>
 </body>
 
 </html>

@@ -8,6 +8,7 @@ export function makeCreateUserValidationForm() {
 			properties: {
 				name: { type: 'string', maxLength: 8 },
 				email: { type: 'string' },
+				password: { type: 'string' },
 			},
 			required: ['name', 'email'],
 			additionalProperties: false,
@@ -36,7 +37,20 @@ export function makeGetUserValidationParams() {
 		params: {
 			type: 'object',
 			properties: {
-				id: { type: 'integer' },
+				id: { type: 'string' },
+			},
+			required: ['id'],
+			additionalProperties: false,
+		}
+	};
+}
+
+export function makeDelUserValidationParams() {
+	return {
+		params: {
+			type: 'object',
+			properties: {
+				id: { type: 'string' },
 			},
 			required: ['id'],
 			additionalProperties: false,

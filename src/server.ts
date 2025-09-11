@@ -28,7 +28,7 @@ await app.register(cors, {
 const prisma = new PrismaClient();
 
 // Permet d'avoir prisma partout en typescript
-await app.register(fastifyPrisma, {
+app.register(fastifyPrisma, {
 	client: prisma,
 });
 
