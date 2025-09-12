@@ -1,6 +1,22 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
-import bcrypt from 'bcrypt'
-import { createUser } from '../controllers/users.ts'
+import bcrypt from 'bcrypt';
+
+
+const sendLoginPage = async (request: FastifyRequest, reply: FastifyReply) => {
+	return reply.sendFile('views/login.html');
+};
+
+const sendSignUpPage = async (request: FastifyRequest, reply: FastifyReply) => {
+	return reply.sendFile('views/signUp.html');
+};
+
+
+const sendTestPage = async (request: FastifyRequest, reply: FastifyReply) => {
+	const user = request.user;
+	console.log(user);
+	return reply.sendFile('views/test.html');
+}
+
 
 const login = async (request: FastifyRequest, reply: FastifyReply) => {
 	const { email, password } = request.body;
@@ -27,13 +43,6 @@ const login = async (request: FastifyRequest, reply: FastifyReply) => {
 	return { accessToken: token }
 };
 
-const sendLoginPage = async (request: FastifyRequest, reply: FastifyReply) => {
-	return reply.sendFile('views/login.html');
-};
-
-const sendSignUpPage = async (request: FastifyRequest, reply: FastifyReply) => {
-	return reply.sendFile('views/signUp.html');
-};
 
 
 const signUp = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -66,18 +75,12 @@ const logout = async (request: FastifyRequest, reply: FastifyReply) => {
 	return reply.send({ message: 'Logout successful' })
 };
 
-const test = async (request: FastifyRequest, reply: FastifyReply) => {
-	const user = request.user;
-	console.log(user);
-
-	return reply.sendFile('views/test.html');
-}
 
 
 export {
 	login,
 	logout,
-	test,
+	sendTestPage,
 	signUp,
 	sendLoginPage,
 	sendSignUpPage,
