@@ -14,16 +14,41 @@ const sendSignUpPage = async (request: FastifyRequest, reply: FastifyReply) => {
 const sendTestPage = async (request: FastifyRequest, reply: FastifyReply) => {
 	const user = request.user;
 	console.log(user);
-	return reply.sendFile('views/test.html');
+	return reply.sendFile('views/protectedPage.html');
 }
 
+
+
+const callbackGoogle = async (request: FastifyRequest, reply: FastifyReply) => {
+
+	const token = await request.server.googleOAuth2.getAccessTokenFromAuthorizationCodeFlow(request);
+
+	console.log({ token }); // Just for debugging
+
+	// Redirect to a route serving HTML or to your front-end
+	request.redirect("http://localhost:3002/?token=" + token.access_token)
+}
+
+const callback42 = async (request: FastifyRequest, reply: FastifyReply) => {
+	const token = await request.server.ecole42OAuth2.getAccessTokenFromAuthorizationCodeFlow(request);
+	reply.send({ access_token: token.access_token });
+}
+
+
+const callbackGithub = async (request: FastifyRequest, reply: FastifyReply) => {
+
+	const token = await request.server.githubOAuth2.getAccessTokenFromAuthorizationCodeFlow(request);
+	reply.send({ access_token: token.access_token });
+
+}
 
 const login = async (request: FastifyRequest, reply: FastifyReply) => {
 	const { email, password } = request.body;
 
 	const User = await request.server.prisma.user.findUnique({ where: { email: email } });
-	const match = User && await bcrypt.compare(password, User.password);
-	if (!User || !match) {
+	// a mettre fonction generique pour Oauth je pense 
+	const isMatch = User && await bcrypt.compare(password, User.password);
+	if (!User || !isMatch) {
 		return reply.code(401).send({
 			message: 'Invalid email or password',
 		})
@@ -84,4 +109,7 @@ export {
 	signUp,
 	sendLoginPage,
 	sendSignUpPage,
+	callbackGoogle,
+	callbackGithub,
+	callback42,
 };
