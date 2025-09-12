@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+
+	<h1>route protected</h1>
+	<button onclick="buttonClicked()">Try it</button>
+	<pre id="Result"></pre>
+</body>
+
+<script>
+	async function buttonClicked() {
+		const response = await fetch('/logout')
+		if (reponse.ok) {
+			document.getElementById('Result').textContent = 'User deconnected';
+		}
+		document.getElementById('Result').textContent = 'User connected';
+
+
+	}
+</script>
+
+</html>

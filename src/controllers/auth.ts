@@ -6,20 +6,25 @@ const login = async (request: FastifyRequest, reply: FastifyReply) => {
 	const { email, password } = request.body;
 
 	const User = await request.server.prisma.user.findUnique({ where: { email: email } });
-	if (!User)
-		return reply.status(400).send({
-			error: ' User not found'
-		});
-	const match = await bcrypt.compare(password, User.password);
+	const match = User && await bcrypt.compare(password, User.password);
+	if (!User || !match) {
+		return reply.code(401).send({
+			message: 'Invalid email or password',
+		})
+	}
+	const payload = {
+		id: User.id,
+		email: User.email,
+		name: User.name,
+	}
+	const token = request.jwt.sign(payload);
 
-	if (match) {
-		// add jwt etc
-		return reply.status(200).send(User);
-	};
-	return reply.status(400).send({
-		error: 'wrong password'
-	});
-
+	reply.setCookie('access_token', token, {
+		path: '/',
+		httpOnly: true,
+		secure: true,
+	})
+	return { accessToken: token }
 };
 
 const sendLoginPage = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -57,35 +62,19 @@ const signUp = async (request: FastifyRequest, reply: FastifyReply) => {
 };
 
 const logout = async (request: FastifyRequest, reply: FastifyReply) => {
-	try {
-		const { email, name } = request.body
-
-		if (!email) {
-			return reply.status(400).send({ error: 'Email est requis' })
-		}
-
-		const user = await request.server.prisma.user.create({
-			data: {
-				email,
-				name,
-			},
-		})
-		return reply.status(201).send(user)
-	} catch (error) {
-
-		if (error.code === 'P2002') {
-			// erreur unique constraint violation (email déjà existant)
-			return reply.status(409).send({ error: 'Email déjà utilisé' })
-		}
-		console.error(error)
-		return reply.status(500).send({ error: 'Erreur serveur' })
-	}
+	reply.clearCookie('access_token');
+	return reply.send({ message: 'Logout successful' })
 };
+
+const test = async (request: FastifyRequest, reply: FastifyReply) => {
+	return reply.sendFile('views/test.html');
+}
 
 
 export {
 	login,
 	logout,
+	test,
 	signUp,
 	sendLoginPage,
 	sendSignUpPage,
