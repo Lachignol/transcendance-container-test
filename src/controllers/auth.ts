@@ -67,6 +67,9 @@ const logout = async (request: FastifyRequest, reply: FastifyReply) => {
 };
 
 const test = async (request: FastifyRequest, reply: FastifyReply) => {
+	const user = request.user;
+	console.log(user);
+
 	return reply.sendFile('views/test.html');
 }
 
