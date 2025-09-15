@@ -5,7 +5,8 @@ import cors from '@fastify/cors'
 
 export function init_cors(app: fastify) {
 	app.register(cors, {
-		// origin : "*"
+		origin: "*",
+		credentials: true,
 	})
 
 }

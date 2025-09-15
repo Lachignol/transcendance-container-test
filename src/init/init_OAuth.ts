@@ -22,7 +22,7 @@ export function init_app_OAuth2(app: fastify) {
 		startRedirectPath: '/login/google',
 		// Envoi apres autorisation le token a l'adresse suivante
 		// METTRE LE PORT DU .ENV !!!!!!!!
-		callbackUri: 'http://localhost:3000/google/callback'
+		callbackUri: 'http://localhost:3000/google/callback',
 	});
 
 	///////////////////////////////////// metttttttttttttttreee valeur de envvvvv
@@ -32,13 +32,13 @@ export function init_app_OAuth2(app: fastify) {
 		scope: ['user:email'],
 		credentials: {
 			client: {
-				id: '<GITHUB_CLIENT_ID>',
-				secret: '<GITHUB_CLIENT_SECRET>'
+				id: process.env.GITHUB_CLIENT_ID,
+				secret: process.env.GITHUB_CLIENT_SECRET
 			},
 			auth: OAuth2.GITHUB_CONFIGURATION
 		},
 		startRedirectPath: '/login/github',
-		callbackUri: 'http://localhost:3000/github/callback'
+		callbackUri: 'http://localhost:3000/github/callback',
 	});
 
 	// École 42 
@@ -47,8 +47,8 @@ export function init_app_OAuth2(app: fastify) {
 		scope: ['public'], // adapter aux scopes de l'école 42
 		credentials: {
 			client: {
-				id: '<ECOLE42_CLIENT_ID>',
-				secret: '<ECOLE42_CLIENT_SECRET>'
+				id: process.env.ECOLE42_CLIENT_ID,
+				secret: process.env.ECOLE42_CLIENT_SECRET,
 			},
 			auth: {
 				authorizeHost: 'https://api.intra.42.fr',
@@ -58,6 +58,6 @@ export function init_app_OAuth2(app: fastify) {
 			}
 		},
 		startRedirectPath: '/login/ecole42',
-		callbackUri: 'http://localhost:3000/ecole42/callback'
+		callbackUri: 'http://localhost:3000/ecole42/callback',
 	});
 }

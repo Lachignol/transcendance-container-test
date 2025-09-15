@@ -24,7 +24,7 @@ init_cors(app);
 init_app_public_repository(app, __dirname);
 init_app_routes(app, __dirname);
 init_app_authentification(app);
-init_app_OAuth2(app)
+init_app_OAuth2(app);
 run_app(app);
 
 

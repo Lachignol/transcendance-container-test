@@ -37,6 +37,7 @@
     "json-schema-ref-resolver": "^2.0.1",
     "json-schema-traverse": "^1.0.0",
     "light-my-request": "^6.6.0",
+    "node-fetch": "^3.3.2",
     "on-exit-leak-free": "^2.1.2",
     "pino": "^9.9.1",
     "pino-abstract-transport": "^2.0.0",

@@ -10,7 +10,7 @@ export default async (app: FastifyInstance) => {
 	app.post('/signUp', { schema: makeSignUpValidationForm() }, signUp);
 	app.post('/login', { schema: makeLoginValidationForm() }, login);
 	app.get('/logout', { preHandler: [app.authenticate] }, logout);
-	app.get("/google/callback", {}, callbackGoogle);
+	app.get("/google/callback", callbackGoogle);
 	app.get("/github/callback", {}, callbackGithub);
 	app.get("/ecole42/callback", {}, callback42);
 };

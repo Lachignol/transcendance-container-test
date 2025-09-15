@@ -1,5 +1,7 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
+import fetch from 'node-fetch';
 import bcrypt from 'bcrypt';
+import app from '../server.ts'
 
 
 const sendLoginPage = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -17,17 +19,37 @@ const sendTestPage = async (request: FastifyRequest, reply: FastifyReply) => {
 	return reply.sendFile('views/protectedPage.html');
 }
 
-
-
 const callbackGoogle = async (request: FastifyRequest, reply: FastifyReply) => {
+	try {
+		// Récupérer le token d'accès d'authorization code
+		const { token } = await request.server.googleOAuth2.getAccessTokenFromAuthorizationCodeFlow(request, reply);
+		console.log('Token:', token);
 
-	const token = await request.server.googleOAuth2.getAccessTokenFromAuthorizationCodeFlow(request);
+		// Appeler l'API Google Userinfo avec le token d'accès
+		const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+			headers: {
+				Authorization: `Bearer ${token.access_token}`,
+			},
+		});
 
-	console.log({ token }); // Just for debugging
+		if (!userInfoResponse.ok) {
+			throw new Error('Failed to fetch user info');
+		}
 
-	// Redirect to a route serving HTML or to your front-end
-	request.redirect("http://localhost:3002/?token=" + token.access_token)
-}
+		const userInfo = await userInfoResponse.json();
+		console.log('User info:', userInfo);
+
+		// userInfo devrait contenir l'email mais on peu rajouter des info
+		const userEmail = userInfo.email;
+
+		return reply.send({ useremail: userEmail })
+
+	} catch (error) {
+		request.log.error(error);
+		return reply.status(500).send({ error: 'Failed to get user email' });
+	}
+};
+
 
 const callback42 = async (request: FastifyRequest, reply: FastifyReply) => {
 	const token = await request.server.ecole42OAuth2.getAccessTokenFromAuthorizationCodeFlow(request);
