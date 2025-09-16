@@ -1,3 +1,5 @@
+//init_OAuth.ts
+import type { FastifyRequest, FastifyReply } from 'fastify';
 import OAuth2 from '@fastify/oauth2';
 
 
@@ -17,6 +19,10 @@ export function init_app_OAuth2(app: fastify) {
 
 			// plugin-provided configurations for Google OAuth
 			auth: OAuth2.GOOGLE_CONFIGURATION,
+		},
+		tokenRequestParams: {
+			client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
+			client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
 		},
 		// Cree directement une route de redirection en (get)
 		startRedirectPath: '/login/google',

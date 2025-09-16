@@ -17,6 +17,34 @@ const sendFormCreateUser = async (request: FastifyRequest, reply: FastifyReply) 
 	return reply.sendFile('views/createUser.html');
 };
 
+
+
+const createUserOAuth2 = async (request: FastifyRequest, email: string, name: string) => {
+	try {
+		if (!email) {
+			return false;
+		}
+		const user = await request.server.prisma.user.create({
+			data: {
+				name: name,
+				email: email,
+			},
+		})
+		console.log(user);
+
+		if (!user)
+			return false;
+		return { user };
+	} catch (error) {
+
+		if (error.code === 'P2002') {
+			// erreur unique constraint violation (email déjà existant)
+			return false;
+		}
+		console.error(error)
+		return false;
+	}
+};
 const createUser = async (request: FastifyRequest, reply: FastifyReply) => {
 	try {
 		const { name, email, password } = request.body
@@ -101,6 +129,7 @@ export {
 	getUserById,
 	sendFormCreateUser,
 	createUser,
+	createUserOAuth2,
 	updateUser,
 	deleteUser,
 };

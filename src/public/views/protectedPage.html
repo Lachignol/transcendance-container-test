@@ -11,7 +11,7 @@
 
 	<h1>route protected</h1>
 	<button onclick="buttonClicked()">logout</button>
-	<pre id="Result"></pre>
+	<pre id="Result">'User connected'</pre>
 </body>
 
 <script>
@@ -19,10 +19,9 @@
 		const response = await fetch('/logout')
 		if (reponse.ok) {
 			document.getElementById('Result').textContent = 'User deconnected';
+			location.reload();
 		}
 		document.getElementById('Result').textContent = 'User connected';
-
-
 	}
 </script>
 

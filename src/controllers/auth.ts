@@ -1,6 +1,7 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import fetch from 'node-fetch';
 import bcrypt from 'bcrypt';
+import { createUserOAuth2 } from '../controllers/users.ts'
 import app from '../server.ts'
 
 
@@ -12,7 +13,6 @@ const sendSignUpPage = async (request: FastifyRequest, reply: FastifyReply) => {
 	return reply.sendFile('views/signUp.html');
 };
 
-
 const sendTestPage = async (request: FastifyRequest, reply: FastifyReply) => {
 	const user = request.user;
 	console.log(user);
@@ -23,27 +23,37 @@ const callbackGoogle = async (request: FastifyRequest, reply: FastifyReply) => {
 	try {
 		// Récupérer le token d'accès d'authorization code
 		const { token } = await request.server.googleOAuth2.getAccessTokenFromAuthorizationCodeFlow(request, reply);
-		console.log('Token:', token);
-
 		// Appeler l'API Google Userinfo avec le token d'accès
 		const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
 			headers: {
 				Authorization: `Bearer ${token.access_token}`,
 			},
 		});
-
 		if (!userInfoResponse.ok) {
 			throw new Error('Failed to fetch user info');
 		}
-
 		const userInfo = await userInfoResponse.json();
-		console.log('User info:', userInfo);
-
-		// userInfo devrait contenir l'email mais on peu rajouter des info
+		// console.log('User info:', userInfo);
 		const userEmail = userInfo.email;
-
-		return reply.send({ useremail: userEmail })
-
+		let User = await request.server.prisma.user.findUnique({ where: { email: userEmail } });
+		if (!User) {
+			User = createUserOAuth2(request, userInfo.email, userInfo.given_name);
+			if (User == false) {
+				return reply.status(500).send({ error: 'Failed to suscribe new User' });
+			}
+		}
+		const payload = {
+			id: User.id,
+			email: User.email,
+			name: User.name,
+		}
+		const authToken = request.jwt.sign(payload);
+		reply.setCookie('access_token', authToken, {
+			path: '/',
+			httpOnly: true,
+			secure: true,
+		})
+		reply.redirect('/protected');
 	} catch (error) {
 		request.log.error(error);
 		return reply.status(500).send({ error: 'Failed to get user email' });
@@ -87,7 +97,7 @@ const login = async (request: FastifyRequest, reply: FastifyReply) => {
 		httpOnly: true,
 		secure: true,
 	})
-	return { accessToken: token }
+	reply.redirect('/protected');
 };
 
 
@@ -119,7 +129,7 @@ const signUp = async (request: FastifyRequest, reply: FastifyReply) => {
 
 const logout = async (request: FastifyRequest, reply: FastifyReply) => {
 	reply.clearCookie('access_token');
-	return reply.send({ message: 'Logout successful' })
+	return reply.status(200).send({ message: 'Logout successful' })
 };
 
 
