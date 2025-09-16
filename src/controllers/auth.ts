@@ -56,6 +56,7 @@ const callbackGoogle = async (request: FastifyRequest, reply: FastifyReply) => {
 			id: User.id,
 			email: User.email,
 			name: User.name,
+			OAuth: token.access_token,
 		}
 		const authToken = request.jwt.sign(payload);
 		reply.setCookie('access_token', authToken, {
@@ -128,18 +129,45 @@ const signUp = async (request: FastifyRequest, reply: FastifyReply) => {
 		},
 	})
 	if (user) {
-		return reply.status(200).send({
-			message: 'User suscribe with success',
+		console.log('User suscribe with success');
 
-		});
+		return reply.redirect('/login')
 	}
 	return reply.status(400).send({
 		error: "we can't suscribe this user",
 	});
 };
 
+const revokeGoogleToken = async (token: string) => {
+	const url = 'https://oauth2.googleapis.com/revoke';
+	const params = new URLSearchParams();
+	params.append('token', token);
+
+	try {
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: params.toString()
+		});
+
+		if (response.ok) {
+			console.log('Token révoqué avec succès');
+		} else {
+			console.error('Échec de la révocation du token:', response.status, await response.text());
+		}
+	} catch (error) {
+		console.error('Erreur lors de la révocation du token:', error);
+	}
+}
+
+
 const logout = async (request: FastifyRequest, reply: FastifyReply) => {
 	reply.clearCookie('access_token');
+	if (request.user.OAuth) {
+		revokeGoogleToken(request.user.OAuth);
+	}
 	return reply.status(200).send({ message: 'Logout successful' })
 };
 

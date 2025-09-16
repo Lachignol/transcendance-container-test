@@ -1,5 +1,5 @@
-import { JWT } from '@fastify/jwt'
-import { OAuth2Namespace } from '@fastify/oauth2';
+import type { JWT } from '@fastify/jwt'
+import type { OAuth2Namespace } from '@fastify/oauth2';
 
 // adding jwt property to req
 // authenticate property to FastifyInstance
@@ -12,8 +12,9 @@ declare module 'fastify' {
 	}
 
 	interface FastifyInstance {
-		GOOGLE_CONFIGURATION: OAuth2Namespace;
-		myCustomOAuth2: OAuth2Namespace;
+		googleOAuth2: OAuth2Namespace;
+		githubOAuth2: OAuth2Namespace;
+		ecole42OAuth2: OAuth2Namespace;
 	}
 }
 
@@ -22,6 +23,7 @@ type UserPayload = {
 	id: string
 	email: string
 	name: string
+	OAuth: string
 }
 
 

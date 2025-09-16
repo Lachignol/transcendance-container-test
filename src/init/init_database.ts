@@ -1,9 +1,9 @@
-import fastify from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import fastifyPrisma from '@joggr/fastify-prisma';
 import { PrismaClient } from "@prisma/client";
 
 
-export function init_app_database(app: fastify): void {
+export function init_app_database(app: FastifyInstance): void {
 	// On cree notre client prisma
 	const prisma = new PrismaClient();
 

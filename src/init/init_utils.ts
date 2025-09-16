@@ -1,9 +1,9 @@
-import fastify from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import formbody from '@fastify/formbody'
 import cors from '@fastify/cors'
 
 
-export function init_cors(app: fastify) {
+export function init_cors(app: FastifyInstance) {
 	app.register(cors, {
 		origin: "*",
 		credentials: true,
@@ -11,7 +11,7 @@ export function init_cors(app: fastify) {
 
 }
 
-export function init_reading_body_request(app: fastify) {
+export function init_reading_body_request(app: FastifyInstance) {
 	// Pour lire les formulaire
 	app.register(formbody);
 

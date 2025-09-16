@@ -1,16 +1,18 @@
 //init_auth.ts
 
+import type { FastifyInstance } from 'fastify'
 import jwt from '@fastify/jwt'
 import fCookie from '@fastify/cookie'
 import type { FastifyRequest, FastifyReply } from 'fastify';
+import type { FastifyJWT } from '@fastify/jwt';
 
-export function init_app_authentification(app: fastify): void {
+export function init_app_authentification(app: FastifyInstance): void {
 
 
 	// on ajoute l'option hook pour dire que le plugin doit recuperer les cookie a quel stade ici dans le prehandler donc avant le prise en compte de la route reel.
 	// sert à signer les cookies pour assurer leur intégrité et sécurité. Cela signifie que les cookies signés seront vérifiés avec cette clé secrète pour éviter les falsifications.
 	app.register(fCookie, {
-		secret: process.env.COOKIESECRET,  // même clé partout
+		secret: process.env.COOKIESECRET as string,  // même clé partout
 		hook: 'preHandler',
 		parseOptions: {
 			httpOnly: true,
@@ -22,10 +24,10 @@ export function init_app_authentification(app: fastify): void {
 
 	// Pour ajouter la phrase secret au jwt
 	app.register(jwt, {
-		secret: process.env.JWTSECRET
+		secret: process.env.JWTSECRET as string,
 	})
 	//  pré-handler fonction qui permet d'exécuter quelquechose avant les routes ne soit appelé
-	app.addHook('preHandler', (req, res, next) => {
+	app.addHook('preHandler', (req: FastifyRequest, reply: FastifyReply, next: (err?: Error) => void) => {
 		// ajoute la propriété jwt à l'objet de la requête (req), en lui attribuant la valeur stockée dans app.jwt. Cela permet d'attacher le jeton JWT (JSON Web Token) à la requête pour qu'il soit accessible et utilisé dans le traitement ultérieur.
 		req.jwt = app.jwt
 		return next()
@@ -40,7 +42,7 @@ export function init_app_authentification(app: fastify): void {
 				return reply.status(401).send({ message: 'Authentication required' })
 			}
 			// here decoded will be a different type by default but we want it to be of user-payload type
-			const decoded = await req.jwt.verify<FastifyJWT['user']>(token)
+			const decoded = req.jwt.verify<FastifyJWT['user']>(token)
 			req.user = decoded
 		},
 	)

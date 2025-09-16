@@ -15,13 +15,16 @@
 </body>
 
 <script>
+
 	async function buttonClicked() {
 		const response = await fetch('/logout')
-		if (reponse.ok) {
+		if (response.ok) {
 			document.getElementById('Result').textContent = 'User deconnected';
-			location.reload();
+			// Redirection vers la page login au lieu de reload
+			window.location.href = '/login';
+		} else {
+			document.getElementById('Result').textContent = 'User connected';
 		}
-		document.getElementById('Result').textContent = 'User connected';
 	}
 </script>
 

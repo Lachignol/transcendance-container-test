@@ -1,6 +1,6 @@
-import fastify from 'fastify';
+import type { FastifyInstance } from 'fastify';
 
-export function run_app(app: fastify) {
+export function run_app(app: FastifyInstance) {
 
 	// Recuperaion des variables de l'env
 	const { ADDRESS = 'localhost', PORT = '3000' } = process.env;

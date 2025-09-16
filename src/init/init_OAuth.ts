@@ -1,9 +1,9 @@
 //init_OAuth.ts
-import type { FastifyRequest, FastifyReply } from 'fastify';
+import type { FastifyInstance } from 'fastify'
 import OAuth2 from '@fastify/oauth2';
 
 
-export function init_app_OAuth2(app: fastify) {
+export function init_app_OAuth2(app: FastifyInstance) {
 
 	// Google
 	app.register(OAuth2, {
@@ -13,8 +13,8 @@ export function init_app_OAuth2(app: fastify) {
 
 		credentials: {
 			client: {
-				id: process.env.GOOGLE_OAUTH_CLIENT_ID,
-				secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET
+				id: process.env.GOOGLE_OAUTH_CLIENT_ID as string,
+				secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET as string,
 			},
 
 			// plugin-provided configurations for Google OAuth
@@ -38,8 +38,8 @@ export function init_app_OAuth2(app: fastify) {
 		scope: ['user:email'],
 		credentials: {
 			client: {
-				id: process.env.GITHUB_CLIENT_ID,
-				secret: process.env.GITHUB_CLIENT_SECRET
+				id: process.env.GITHUB_CLIENT_ID as string,
+				secret: process.env.GITHUB_CLIENT_SECRET as string,
 			},
 			auth: OAuth2.GITHUB_CONFIGURATION
 		},
@@ -53,8 +53,8 @@ export function init_app_OAuth2(app: fastify) {
 		scope: ['public'], // adapter aux scopes de l'école 42
 		credentials: {
 			client: {
-				id: process.env.ECOLE42_CLIENT_ID,
-				secret: process.env.ECOLE42_CLIENT_SECRET,
+				id: process.env.ECOLE42_CLIENT_ID as string,
+				secret: process.env.ECOLE42_CLIENT_SECRET as string,
 			},
 			auth: {
 				authorizeHost: 'https://api.intra.42.fr',
