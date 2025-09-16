@@ -17,4 +17,5 @@ clean: down
 logs:
 	docker-compose -p $(PROJECT_NAME) logs -f
 
-
+exec:
+	docker-compose -p $(PROJECT_NAME) exec -it $(SERVICE) $(cmd)

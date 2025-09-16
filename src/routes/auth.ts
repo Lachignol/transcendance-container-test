@@ -1,11 +1,12 @@
 import type { FastifyInstance } from 'fastify';
-import { sendLoginPage, sendSignUpPage, login, logout, signUp, sendTestPage, callbackGoogle, callbackGithub, callback42 } from '../controllers/auth.ts'
+import { sendWaitingPage, sendLoginPage, sendSignUpPage, login, logout, signUp, sendTestPage, callbackGoogle, callbackGithub, callback42 } from '../controllers/auth.ts'
 import { makeLoginValidationForm, makeSignUpValidationForm } from '../validation/auth_validation.ts'
 
 export default async (app: FastifyInstance) => {
 
 	app.get('/login', sendLoginPage);
 	app.get('/signUp', sendSignUpPage);
+	app.get('/waitingPage', { preHandler: [app.authenticate] }, sendWaitingPage);
 	app.get('/protected', { preHandler: [app.authenticate] }, sendTestPage);
 	app.post('/signUp', { schema: makeSignUpValidationForm() }, signUp);
 	app.post('/login', { schema: makeLoginValidationForm() }, login);

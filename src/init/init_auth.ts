@@ -40,7 +40,7 @@ export function init_app_authentification(app: fastify): void {
 				return reply.status(401).send({ message: 'Authentication required' })
 			}
 			// here decoded will be a different type by default but we want it to be of user-payload type
-			const decoded = req.jwt.verify<FastifyJWT['user']>(token)
+			const decoded = await req.jwt.verify<FastifyJWT['user']>(token)
 			req.user = decoded
 		},
 	)

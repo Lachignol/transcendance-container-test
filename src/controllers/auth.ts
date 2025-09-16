@@ -13,6 +13,11 @@ const sendSignUpPage = async (request: FastifyRequest, reply: FastifyReply) => {
 	return reply.sendFile('views/signUp.html');
 };
 
+
+const sendWaitingPage = async (request: FastifyRequest, reply: FastifyReply) => {
+	return reply.sendFile('views/waitingPage.html');
+}
+
 const sendTestPage = async (request: FastifyRequest, reply: FastifyReply) => {
 	const user = request.user;
 	console.log(user);
@@ -36,12 +41,17 @@ const callbackGoogle = async (request: FastifyRequest, reply: FastifyReply) => {
 		// console.log('User info:', userInfo);
 		const userEmail = userInfo.email;
 		let User = await request.server.prisma.user.findUnique({ where: { email: userEmail } });
+		console.log("user avant existance value:");
+		console.log(User);
+
 		if (!User) {
-			User = createUserOAuth2(request, userInfo.email, userInfo.given_name);
+			User = await createUserOAuth2(request, userInfo.email, userInfo.given_name);
 			if (User == false) {
 				return reply.status(500).send({ error: 'Failed to suscribe new User' });
 			}
 		}
+		User = await request.server.prisma.user.findUnique({ where: { email: userEmail } });
+		console.log(User)
 		const payload = {
 			id: User.id,
 			email: User.email,
@@ -53,7 +63,7 @@ const callbackGoogle = async (request: FastifyRequest, reply: FastifyReply) => {
 			httpOnly: true,
 			secure: true,
 		})
-		reply.redirect('/protected');
+		return reply.redirect('/waitingPage');
 	} catch (error) {
 		request.log.error(error);
 		return reply.status(500).send({ error: 'Failed to get user email' });
@@ -114,6 +124,7 @@ const signUp = async (request: FastifyRequest, reply: FastifyReply) => {
 			name,
 			email,
 			password: hash,
+			method: 'Auth',
 		},
 	})
 	if (user) {
@@ -141,6 +152,7 @@ export {
 	signUp,
 	sendLoginPage,
 	sendSignUpPage,
+	sendWaitingPage,
 	callbackGoogle,
 	callbackGithub,
 	callback42,

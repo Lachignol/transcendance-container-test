@@ -28,10 +28,11 @@ const createUserOAuth2 = async (request: FastifyRequest, email: string, name: st
 			data: {
 				name: name,
 				email: email,
+				method: 'OAuth2',
 			},
 		})
+		console.log("creation de l'user");
 		console.log(user);
-
 		if (!user)
 			return false;
 		return { user };
@@ -58,6 +59,7 @@ const createUser = async (request: FastifyRequest, reply: FastifyReply) => {
 				name,
 				email,
 				password,
+				method: 'Auth',
 			},
 		})
 		return reply.status(201).send(user)
