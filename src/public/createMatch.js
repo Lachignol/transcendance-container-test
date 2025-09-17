@@ -24,11 +24,11 @@ async function fetchMatch() {
 	document.getElementById('matchResult').textContent = '';
 	if (response.ok) {
 		const match = await response.json();
-		document.getElementById('matchResult').textContent = JSON.stringify(user, null, 1);
+		document.getElementById('matchResult').textContent = JSON.stringify(match, null, 1);
 		document.getElementById('matchResult').innerHTML += `<button type="button" onclick='delMatch(${JSON.stringify(match)})'>Delete</button>`;
 	}
 	else if (response.status == 404) {
-		document.getElementById('matchResult').textContent = 'User not found';
+		document.getElementById('matchResult').textContent = 'Match not found';
 
 	} else {
 		document.getElementById('matchResult').textContent = 'Erreur: ' + response.message;

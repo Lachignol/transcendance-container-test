@@ -11,7 +11,11 @@ const getMatchById = async (request: FastifyRequest, reply: FastifyReply) => {
 	if (isNaN(idInt)) {
 		return reply.status(400).send({ error: 'L\'ID doit être un nombre entier' });
 	}
-	const Match = await request.server.prisma.Match.findUnique({ where: { id: idInt } });
+	const Match = await request.server.prisma.Match.findUnique({
+		where: { id: idInt }, include: {
+			players: true
+		}
+	});
 	if (Match)
 		return reply.status(200).send(Match);
 	return reply.status(404).send({ message: 'Match not found' });
@@ -70,6 +74,8 @@ const setMatchHasFinished = async (request: FastifyRequest, reply: FastifyReply)
 			return reply.status(201).send(Match)
 		}
 	} catch (error) {
+		if (error.code == 'P2025')
+			return reply.status(500).send({ error: 'Match not found' })
 		console.error(error);
 		return reply.status(500).send({ error: 'Erreur serveur' })
 	}
@@ -88,6 +94,8 @@ const setMatchHasCancel = async (request: FastifyRequest, reply: FastifyReply) =
 			return reply.status(201).send(Match)
 		}
 	} catch (error) {
+		if (error.code == 'P2025')
+			return reply.status(500).send({ error: 'Match not found' })
 		console.error(error);
 		return reply.status(500).send({ error: 'Erreur serveur' })
 	}

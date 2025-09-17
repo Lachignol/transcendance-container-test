@@ -7,7 +7,11 @@ const getUserById = async (request: FastifyRequest, reply: FastifyReply) => {
 	if (isNaN(idInt)) {
 		return reply.status(400).send({ error: 'L\'ID doit être un nombre entier' });
 	}
-	const User = await request.server.prisma.User.findUnique({ where: { id: idInt } });
+	const User = await request.server.prisma.User.findUnique({
+		where: { id: idInt }, include: {
+			matchs: true
+		}
+	});
 	if (User)
 		return reply.status(200).send(User);
 	return reply.status(404).send({ message: 'User not found' });
@@ -15,7 +19,11 @@ const getUserById = async (request: FastifyRequest, reply: FastifyReply) => {
 
 
 const getAllUsers = async (request: FastifyRequest, reply: FastifyReply) => {
-	const Users = await request.server.prisma.User.findMany();
+	const Users = await request.server.prisma.User.findMany({
+		include: {
+			matchs: true
+		}
+	});
 	if (Users)
 		return reply.status(200).send(Users);
 	return reply.status(404).send({ message: 'User not found' });
