@@ -1,5 +1,9 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
 
+const sendFormCreateMatch = async (request: FastifyRequest, reply: FastifyReply) => {
+	return reply.sendFile('views/createMatch.html');
+};
+
 const getMatchById = async (request: FastifyRequest, reply: FastifyReply) => {
 	const { id } = request.params;
 
@@ -13,9 +17,6 @@ const getMatchById = async (request: FastifyRequest, reply: FastifyReply) => {
 	return reply.status(404).send({ message: 'Match not found' });
 };
 
-const sendFormCreateMatch = async (request: FastifyRequest, reply: FastifyReply) => {
-	return reply.sendFile('views/createMatch.html');
-};
 
 
 
@@ -23,17 +24,14 @@ const createMatch = async (request: FastifyRequest, reply: FastifyReply) => {
 	try {
 		const { idUser1, idUser2 } = request.body
 
-		if (!idUser1 || !idUser2) {
-			return reply.status(404).send({ error: 'Deux user id sont requis' })
-		}
-
 		if (idUser1 == idUser2) {
 			return reply.status(404).send({ error: 'Les deux id sont du meme user' })
 		}
 		const match = await request.server.prisma.Match.create({
 			data: {
-				players: [[idUser1], [idUser2]]
-
+				players: {
+					connect: [{ id: idUser1 }, { id: idUser2 }]
+				},
 			},
 		})
 		return reply.status(201).send(match)

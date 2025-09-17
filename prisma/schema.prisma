@@ -18,14 +18,14 @@ model User {
   email String  @unique
   password  String?
   method  String
-  matchs  Match[]
+  matchs  Match[] @relation("MatchPlayers")
   createdAt DateTime @default(now())
 }
 
 
 model Match {
   id    Int     @id @default(autoincrement())
-  players  User[]
+  players  User[] @relation("MatchPlayers")
   isfinished  Boolean @default(false)
   isCancel  Boolean @default(false)
   createdAt DateTime @default(now())
