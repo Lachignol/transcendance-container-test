@@ -2,7 +2,6 @@ import type { FastifyRequest, FastifyReply } from 'fastify';
 import fetch from 'node-fetch';
 import bcrypt from 'bcrypt';
 import { createUserOAuth2 } from '../controllers/users.ts'
-import app from '../server.ts'
 
 
 const sendLoginPage = async (request: FastifyRequest, reply: FastifyReply) => {

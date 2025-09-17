@@ -71,6 +71,7 @@
     "@fastify/autoload": "^6.0.0",
     "@fastify/formbody": "^8.0.0",
     "@prisma/client": "^6.15.0",
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "^24.3.1",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",

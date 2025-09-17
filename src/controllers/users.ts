@@ -7,9 +7,17 @@ const getUserById = async (request: FastifyRequest, reply: FastifyReply) => {
 	if (isNaN(idInt)) {
 		return reply.status(400).send({ error: 'L\'ID doit être un nombre entier' });
 	}
-	const User = await request.server.prisma.user.findUnique({ where: { id: idInt } });
+	const User = await request.server.prisma.User.findUnique({ where: { id: idInt } });
 	if (User)
 		return reply.status(200).send(User);
+	return reply.status(404).send({ message: 'User not found' });
+};
+
+
+const getAllUsers = async (request: FastifyRequest, reply: FastifyReply) => {
+	const Users = await request.server.prisma.User.findMany();
+	if (Users)
+		return reply.status(200).send(Users);
 	return reply.status(404).send({ message: 'User not found' });
 };
 
@@ -24,7 +32,7 @@ const createUserOAuth2 = async (request: FastifyRequest, email: string, name: st
 		if (!email) {
 			return false;
 		}
-		const user = await request.server.prisma.user.create({
+		const user = await request.server.prisma.User.create({
 			data: {
 				name: name,
 				email: email,
@@ -54,7 +62,7 @@ const createUser = async (request: FastifyRequest, reply: FastifyReply) => {
 			return reply.status(404).send({ error: 'Email est requis' })
 		}
 
-		const user = await request.server.prisma.user.create({
+		const user = await request.server.prisma.User.create({
 			data: {
 				name,
 				email,
@@ -81,7 +89,7 @@ const deleteUser = async (request: FastifyRequest, reply: FastifyReply) => {
 	if (isNaN(idInt)) {
 		return reply.status(400).send({ error: 'L\'ID doit être un nombre entier' });
 	}
-	const deleteInfo = await request.server.prisma.user.deleteMany({ where: { id: idInt } });
+	const deleteInfo = await request.server.prisma.User.deleteMany({ where: { id: idInt } });
 	if (deleteInfo.count > 0) {
 		return reply.status(200).send({ message: 'User delete with success' });
 	} else {
@@ -100,16 +108,16 @@ const updateUser = async (request: FastifyRequest, reply: FastifyReply) => {
 			return reply.status(400).send({ error: 'nothing to update' })
 		}
 		if (email && name && password) {
-			User = await request.server.prisma.user.update({ where: { id: id }, data: { name: name, email: email, password: password } });
+			User = await request.server.prisma.User.update({ where: { id: id }, data: { name: name, email: email, password: password } });
 		}
 		if (email) {
-			User = await request.server.prisma.user.update({ where: { id: id }, data: { email: email } });
+			User = await request.server.prisma.User.update({ where: { id: id }, data: { email: email } });
 		}
 		if (name) {
-			User = await request.server.prisma.user.update({ where: { id: id }, data: { name: name } });
+			User = await request.server.prisma.User.update({ where: { id: id }, data: { name: name } });
 		}
 		if (password) {
-			User = await request.server.prisma.user.update({ where: { id: id }, data: { password: password } });
+			User = await request.server.prisma.User.update({ where: { id: id }, data: { password: password } });
 		}
 		if (!User) {
 			return reply.status(400).send({ error: 'update not work' });
@@ -129,6 +137,7 @@ const updateUser = async (request: FastifyRequest, reply: FastifyReply) => {
 
 export {
 	getUserById,
+	getAllUsers,
 	sendFormCreateUser,
 	createUser,
 	createUserOAuth2,

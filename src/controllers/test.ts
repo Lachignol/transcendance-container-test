@@ -1,6 +1,6 @@
-import type { FastifyReply } from 'fastify';
+import type { FastifyRequest, FastifyReply } from 'fastify';
 
-const test = async (reply: FastifyReply) => {
+const test = async (request: FastifyRequest, reply: FastifyReply) => {
 	return reply.sendFile('views/index.html');
 };
 

@@ -10,6 +10,7 @@ generator client {
 
 
 // Mettre els models ici !!!!!
+//voir pour affiner les relations !!!
 
 model User {
   id    Int     @id @default(autoincrement())
@@ -17,5 +18,16 @@ model User {
   email String  @unique
   password  String?
   method  String
+  matchs  Match[]
+  createdAt DateTime @default(now())
+}
+
+
+model Match {
+  id    Int     @id @default(autoincrement())
+  players  User[]
+  isfinished  Boolean @default(false)
+  isCancel  Boolean @default(false)
+  createdAt DateTime @default(now())
 }
 
