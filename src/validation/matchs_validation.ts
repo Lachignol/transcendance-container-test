@@ -1,5 +1,4 @@
 //Faire toutes les validation des champs necessaire ici en amont 
-//ici length basse juste pour tester
 
 export function makeCreateMatchValidationForm() {
 	return {
