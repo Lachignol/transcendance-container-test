@@ -6,9 +6,11 @@ import type { OAuth2Namespace } from '@fastify/oauth2';
 declare module 'fastify' {
 	interface FastifyRequest {
 		jwt: JWT
+		filename: string
 	}
 	export interface FastifyInstance {
 		authenticate: any
+		upload: any
 	}
 
 	interface FastifyInstance {

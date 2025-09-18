@@ -1,7 +1,7 @@
 import path from 'path';
 import fastify from 'fastify';
 import { fileURLToPath } from 'url';
-import { init_cors, init_reading_body_request, init_reading_multipartFormData } from './init/init_utils.ts'
+import { init_cors, init_reading_body_request, init_reading_multipartFormData, init_app_upload_middleware } from './init/init_utils.ts'
 import { init_app_database } from './init/init_database.ts'
 import { init_app_public_repository, init_app_routes, init_app_upload_dir } from './init/init_repositories.ts'
 import { init_app_authentification } from './init/init_auth.ts'
@@ -29,6 +29,7 @@ init_app_public_repository(app, __dirname);
 init_app_routes(app, __dirname);
 init_app_upload_dir(uploadsDir);
 init_app_authentification(app);
+init_app_upload_middleware(app);
 init_app_OAuth2(app);
 run_app(app);
 
