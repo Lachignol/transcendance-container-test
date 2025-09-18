@@ -110,13 +110,19 @@ const deleteUser = async (request: FastifyRequest, reply: FastifyReply) => {
 const updateUser = async (request: FastifyRequest, reply: FastifyReply) => {
 	try {
 		let User;
-		const { id, email, name, password } = request.body
 
-		if (!email && !name && !password) {
+		const idstr = request.body.id.value
+		const id = parseInt(idstr, 10);
+		const email = request.body.email.value
+		const name = request.body.name.value
+		const password = request.body.password.value
+		const picture = request.body.picture
+
+		if (!email && !name && !password && !picture) {
 			return reply.status(400).send({ error: 'nothing to update' })
 		}
-		if (email && name && password) {
-			User = await request.server.prisma.User.update({ where: { id: id }, data: { name: name, email: email, password: password } });
+		if (email && name && password && picture) {
+			User = await request.server.prisma.User.update({ where: { id: id }, data: { name: name, email: email, password: password, picture: picture } });
 		}
 		if (email) {
 			User = await request.server.prisma.User.update({ where: { id: id }, data: { email: email } });
@@ -126,6 +132,9 @@ const updateUser = async (request: FastifyRequest, reply: FastifyReply) => {
 		}
 		if (password) {
 			User = await request.server.prisma.User.update({ where: { id: id }, data: { password: password } });
+		}
+		if (picture) {
+			User = await request.server.prisma.User.update({ where: { id: id }, data: { picture: picture } });
 		}
 		if (!User) {
 			return reply.status(400).send({ error: 'update not work' });

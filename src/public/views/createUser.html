@@ -26,10 +26,11 @@
 	<pre id="userResult"></pre>
 
 	<h2>Modification utilisateur (PUT)</h2>
-	<form method="post" action="/modifyUser/">
+	<form method="post" action="/modifyUser/" enctype="multipart/form-data">
 		<label>ID : <input type="number" name="id" required /></label><br />
 		<label>Nouveau nom : <input type="text" name="name" /></label><br />
 		<label>Nouvel email : <input type="email" name="email" /></label><br />
+		<label>photo de profil : <input type="File" name="file" /></label><br />
 		<label>Nouvel password : <input type="password" name="password" /></label><br />
 		<button type="submit">Modifier</button>
 	</form>
