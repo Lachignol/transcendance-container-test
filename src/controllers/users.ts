@@ -118,6 +118,9 @@ const updateUser = async (request: FastifyRequest, reply: FastifyReply) => {
 		const password = request.body.password.value
 		const picture = request.body.picture
 
+
+		// gerer si on change de picture suprimer l'ancienne lie au user de toute facon on va plutot requeter l'user en question et afficher ces value dans la page profil et si il fait un changement et que dpnc un des champ est different de ce quon a en base on update
+
 		if (!email && !name && !password && !picture) {
 			return reply.status(400).send({ error: 'nothing to update' })
 		}
