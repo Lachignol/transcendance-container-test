@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Login</title>
+	<script src="/login.js"></script>
+</head>
+
+<body>
+	<h1></h1>
+
+	<h2>Connect</h2>
+	<a href="/signUp">Si pas encore inscrit s'inscrire ici</a>
+	<form id="createUserForm" method="post" action="/login">
+		<label>Email : <input type="email" name="email" required /></label><br />
+		<label>Passord : <input type="password" name="password" required /></label><br />
+		<button type="submit">Ce connecter</button>
+	</form>
+
+	<a href="/login/google">Se connecter avec google</a>
+	<a href="/login/github">Se connecter avec github</a>
+	<a href="/login/ecole42">Se connecter avec 42</a>
+
+</body>
+
+</html>

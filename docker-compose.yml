@@ -1,13 +1,23 @@
-
 services:
   app:
     build: .
-    # A ENLEVER POUR LA PROD
     volumes:
-      - ./:/usr/src/app  # montage du dossier de travail local dans le conteneur
-      - /usr/src/app/node_modules  # exclure le dossier node_modules pour ne pas écraser
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
-      - "3000:3000"  # exposer le port 3000
-    # A METTRE POUR LA PROD
+      - "3000:3000"
+    # Pour la prod, décommente la ligne suivante
     # command: npm start  
-    # command: npm run dev  # HOT RELOAD POUR LE DEV (A ENLEVER)
+    # Pour le dev avec hot reload, décommente:
+    # command: npm run dev  
+
+  nginx:
+    build: ./frontend/
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/html:/usr/share/nginx/html:ro
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+
