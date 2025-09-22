@@ -9,16 +9,16 @@ const sendLoginPage = async (request: FastifyRequest, reply: FastifyReply) => {
 	<h1></h1>
 
 	<h2>Connect</h2>
-	<a href="/signUp">Si pas encore inscrit s'inscrire ici</a>
-	<form id="createUserForm" method="post" action="/api/login">
+	<a href="/signUp/">Si pas encore inscrit s'inscrire ici</a>
+	<form id="createUserForm" method="post" action="/api/login/">
 		<label>Email : <input type="email" name="email" required /></label><br />
 		<label>Passord : <input type="password" name="password" required /></label><br />
 		<button type="submit">Ce connecter</button>
 	</form>
 
-	<a href="/login/google">Se connecter avec google</a>
-	<a href="/login/github">Se connecter avec github</a>
-	<a href="/login/ecole42">Se connecter avec 42</a>`)
+	<a href="/api/login/google">Se connecter avec google</a>
+	<a href="/api/login/github">Se connecter avec github</a>
+	<a href="/api/login/ecole42">Se connecter avec 42</a>`)
 };
 
 const sendSignUpPage = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -26,7 +26,7 @@ const sendSignUpPage = async (request: FastifyRequest, reply: FastifyReply) => {
 	<h1>SignUp</h1>
 
 	<h2>Formulaire Création Utilisateur </h2>
-	<form id="createUserForm" method="post" action="/signUp">
+	<form id="createUserForm" method="post" action="/api/signUp/">
 		<label>Nom : <input type="text" name="name" required /></label><br />
 		<label>Email : <input type="email" name="email" required /></label><br />
 		<label>Passord : <input type="password" name="password" required /></label><br />
@@ -89,7 +89,7 @@ const callbackGoogle = async (request: FastifyRequest, reply: FastifyReply) => {
 			httpOnly: true,
 			secure: true,
 		})
-		return reply.redirect('/protected');
+		return reply.redirect('http://localhost:8080/protected/');
 	} catch (error) {
 		request.log.error(error);
 		return reply.status(500).send({ error: 'Failed to get user email' });
@@ -133,9 +133,8 @@ const login = async (request: FastifyRequest, reply: FastifyReply) => {
 		httpOnly: true,
 		secure: true,
 	})
-	reply.redirect('/protected');
+	reply.redirect('/protected/');
 };
-
 
 
 const signUp = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -156,7 +155,7 @@ const signUp = async (request: FastifyRequest, reply: FastifyReply) => {
 	if (user) {
 		console.log('User suscribe with success');
 
-		return reply.redirect('/login')
+		return reply.redirect('/login/')
 	}
 	return reply.status(400).send({
 		error: "we can't suscribe this user",

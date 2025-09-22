@@ -27,24 +27,24 @@ const routing = async (url) => {
 			content = await response.text()
 			break;
 		case "/createUser/":
-			response = await fetch('/api/createUser');
+			response = await fetch('/api/createUser/');
 			content = await response.text()
 			break
 		case "/createMatch/":
-			response = await fetch('/api/createMatch');
+			response = await fetch('/api/createMatch/');
 			content = await response.text()
 			break
 
 		case "/login/":
-			response = await fetch('/api/login');
+			response = await fetch('/api/login/');
 			content = await response.text()
 			break
 		case "/signUp/":
-			response = await fetch('/api/signUp');
+			response = await fetch('/api/signUp/');
 			content = await response.text()
 			break
 		case "/protected/":
-			response = await fetch('/api/protected');
+			response = await fetch('/api/protected/');
 			content = await response.text()
 			break
 		case "/test":

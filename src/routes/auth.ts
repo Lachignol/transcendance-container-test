@@ -4,12 +4,12 @@ import { makeLoginValidationForm, makeSignUpValidationForm } from '../validation
 
 export default async (app: FastifyInstance) => {
 
-	app.get('/login', sendLoginPage);
-	app.get('/signUp', sendSignUpPage);
+	app.get('/login/', sendLoginPage);
+	app.get('/signUp/', sendSignUpPage);
 	app.get('/waitingPage', { preHandler: [app.authenticate] }, sendWaitingPage);
-	app.get('/protected', { preHandler: [app.authenticate] }, sendTestPage);
-	app.post('/signUp', { schema: makeSignUpValidationForm() }, signUp);
-	app.post('/login', { schema: makeLoginValidationForm() }, login);
+	app.get('/protected/', { preHandler: [app.authenticate] }, sendTestPage);
+	app.post('/signUp/', { schema: makeSignUpValidationForm() }, signUp);
+	app.post('/login/', { schema: makeLoginValidationForm() }, login);
 	app.get('/logout', { preHandler: [app.authenticate] }, logout);
 	app.get("/google/callback", callbackGoogle);
 	app.get("/github/callback", {}, callbackGithub);

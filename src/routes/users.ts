@@ -6,7 +6,7 @@ import { makeCreateUserValidationForm, makeUpdateUserValidationForm, makeGetUser
 // ajouter tous les schema de validation personalise
 export default async (app: FastifyInstance) => {
 
-	app.get('/createUser', sendFormCreateUser);
+	app.get('/createUser/', sendFormCreateUser);
 	app.post('/createUser/', { schema: makeCreateUserValidationForm() }, createUser);
 	app.get('/user/:id', { schema: makeGetUserValidationParams() }, getUserById);
 	app.get('/getAllUsers/', getAllUsers);
