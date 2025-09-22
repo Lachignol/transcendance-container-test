@@ -9,7 +9,7 @@ COPY html/ /usr/share/nginx/html/
 RUN chmod -R 755 /usr/share/nginx/html/
 RUN chmod 644 /usr/share/nginx/html/
 # Expose le port 80 pour accéder au service web
-EXPOSE 80
+EXPOSE 8080
 
 # Commande par défaut pour lancer nginx en mode non daemon (au premier plan)
 CMD ["nginx", "-g", "daemon off;"]

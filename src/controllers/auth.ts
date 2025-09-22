@@ -5,11 +5,33 @@ import { createUserOAuth2 } from '../controllers/users.ts'
 
 
 const sendLoginPage = async (request: FastifyRequest, reply: FastifyReply) => {
-	return reply.sendFile('views/login.html');
+	return reply.status(200).send(`
+	<h1></h1>
+
+	<h2>Connect</h2>
+	<a href="/signUp">Si pas encore inscrit s'inscrire ici</a>
+	<form id="createUserForm" method="post" action="/api/login">
+		<label>Email : <input type="email" name="email" required /></label><br />
+		<label>Passord : <input type="password" name="password" required /></label><br />
+		<button type="submit">Ce connecter</button>
+	</form>
+
+	<a href="/login/google">Se connecter avec google</a>
+	<a href="/login/github">Se connecter avec github</a>
+	<a href="/login/ecole42">Se connecter avec 42</a>`)
 };
 
 const sendSignUpPage = async (request: FastifyRequest, reply: FastifyReply) => {
-	return reply.sendFile('views/signUp.html');
+	return reply.status(200).send(`
+	<h1>SignUp</h1>
+
+	<h2>Formulaire Création Utilisateur </h2>
+	<form id="createUserForm" method="post" action="/signUp">
+		<label>Nom : <input type="text" name="name" required /></label><br />
+		<label>Email : <input type="email" name="email" required /></label><br />
+		<label>Passord : <input type="password" name="password" required /></label><br />
+		<button type="submit">Créer</button>
+	</form>`)
 };
 
 
@@ -20,7 +42,11 @@ const sendWaitingPage = async (request: FastifyRequest, reply: FastifyReply) => 
 const sendTestPage = async (request: FastifyRequest, reply: FastifyReply) => {
 	const user = request.user;
 	console.log(user);
-	return reply.sendFile('views/protectedPage.html');
+	return reply.status(200).send(`
+			  	<h1>route protected</h1>
+					<button onclick="buttonClicked()">logout</button>
+						<pre id="Result">'User connected'</pre>
+						`);
 }
 
 const callbackGoogle = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -63,7 +89,7 @@ const callbackGoogle = async (request: FastifyRequest, reply: FastifyReply) => {
 			httpOnly: true,
 			secure: true,
 		})
-		return reply.redirect('/waitingPage');
+		return reply.redirect('/protected');
 	} catch (error) {
 		request.log.error(error);
 		return reply.status(500).send({ error: 'Failed to get user email' });

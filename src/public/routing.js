@@ -26,6 +26,7 @@ const routing = async (url) => {
 			break;
 		case "http://localhost:3000/createUser/":
 			content = await fetch('/createUser/');
+			content = await response.text()
 			break
 		case "http://localhost:3000/test":
 			response = await fetch('/test');

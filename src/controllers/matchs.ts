@@ -1,7 +1,35 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
 
 const sendFormCreateMatch = async (request: FastifyRequest, reply: FastifyReply) => {
-	return reply.sendFile('views/createMatch.html');
+	return reply.status(200).send(`
+	<h1>Tester les routes API Match</h1>
+
+	<h2>Formulaire Création Match (POST)</h2>
+	<form id="createMatchForm" method="post" action="/createMatch/">
+		<label>ID user1 : <input type="number" id="idUser1" name="idUser1" required /></label>
+		<label>ID user2 : <input type="number" id="idUser2" name="idUser2" required /></label>
+		<pre id="usersResult"></pre>
+		<button type="submit">Créer</button>
+	</form>
+
+	<h2>Set Has Finish match (PUT)</h2>
+	<form method="post" action="/setHasFinishedMatch/">
+		<label>ID : <input type="number" name="id" required /></label><br />
+		<button type="submit">Modifier</button>
+	</form>
+
+	<h2>Set Has Cancel match (PUT)</h2>
+	<form method="post" action="/setHasCancelMatch/">
+		<label>ID : <input type="number" name="id" required /></label><br />
+		<button type="submit">Modifier</button>
+	</form>
+
+	<h2>Afficher un match (GET)</h2>
+	<form id="getMatchForm">
+		<label>ID : <input type="number" id="matchId" required /></label>
+		<button type="button" onclick="fetchMatch()">Afficher</button>
+		<pre id="matchResult"></pre>
+	</form>`)
 };
 
 const getMatchById = async (request: FastifyRequest, reply: FastifyReply) => {

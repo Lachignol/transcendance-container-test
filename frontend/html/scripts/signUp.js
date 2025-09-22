@@ -3,7 +3,7 @@
 async function delUser(user) {
 	const userId = user.id;
 	if (!userId) return;
-	const response = await fetch('/deleteUser/' + userId, {
+	const response = await fetch('/api/deleteUser/' + userId, {
 		method: 'DELETE',
 	});
 	if (response.ok) {
@@ -20,7 +20,7 @@ async function delUser(user) {
 async function fetchUser() {
 	const userId = document.getElementById('userId').value;
 	if (!userId) return;
-	const response = await fetch('/user/' + userId);
+	const response = await fetch('/api/user/' + userId);
 	if (response.ok) {
 		const user = await response.json();
 		document.getElementById('userResult').textContent = JSON.stringify(user, null, 2);

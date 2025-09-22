@@ -30,7 +30,34 @@ const getAllUsers = async (request: FastifyRequest, reply: FastifyReply) => {
 };
 
 const sendFormCreateUser = async (request: FastifyRequest, reply: FastifyReply) => {
-	return reply.sendFile('views/createUser.html');
+	return reply.status(200).send(`
+				      <h1>Tester les routes API Utilisateurs</h1>
+	<h2> Formulaire Création Utilisateur(POST) </h2>
+	<form id="createUserForm" method="post" action="/api/createUser/">
+	<label>Nom : <input type="text" name = "name" required /> </label><br / >
+	<label>Email : <input type="email" name = "email" required /> </label><br / >
+	<label>Password : <input type="password" name = "password" required /> </label><br / >
+	<button type="submit" > Créer </button>
+	</form>
+
+	<h2> Afficher un utilisateur(GET) </h2>
+	<form id ="getUserForm">
+	<label>ID : <input type="number" id="userId" required/> </label>
+	<button type="button" onclick="fetchUser()"> Afficher </button>
+	</form>
+	<pre id="userResult"></pre>
+
+	<h2> Modification utilisateur(PUT) </h2>
+	<form method ="post" action ="/api/modifyUser/" enctype ="multipart/form-data">
+	<label>ID : <input type="number" name="id" required/> </label><br />
+	<label>Nouveau nom : <input type="text" name="name"/> </label><br />
+	<label>Nouvel email : <input type="email" name="email"/> </label><br />
+	<label>photo de profil : <input type="File" name="file"/> </label><br />
+	<label>Nouvel password : <input type="password" name="password"/> </label><br / >
+	<button type="submit" > Modifier </button>
+	</form>`);
+
+
 };
 
 

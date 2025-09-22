@@ -6,7 +6,7 @@ import {
 
 export default async (app: FastifyInstance) => {
 
-	app.get('/createMatch/', sendFormCreateMatch);
+	app.get('/createMatch', sendFormCreateMatch);
 	app.post('/createMatch/', { schema: makeCreateMatchValidationForm() }, createMatch);
 	app.get('/match/:id', { schema: makeGetMatchValidationParams() }, getMatchById);
 	app.post('/setHasFinishedMatch/', { schema: makeMatchHasFinishValidationForm() }, setMatchHasFinished);

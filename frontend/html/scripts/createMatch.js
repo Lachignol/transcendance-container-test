@@ -3,7 +3,7 @@ window.load(fetchAllUsers);
 async function delMatch(match) {
 	const matchId = match.id;
 	if (!matchId) return;
-	const response = await fetch('/deleteMatch/' + matchId, {
+	const response = await fetch('/api/deleteMatch/' + matchId, {
 		method: 'DELETE',
 	});
 	if (response.ok) {
@@ -20,7 +20,7 @@ async function delMatch(match) {
 async function fetchMatch() {
 	const MatchId = document.getElementById('matchId').value;
 	if (!MatchId) return;
-	const response = await fetch('/match/' + MatchId);
+	const response = await fetch('/api/match/' + MatchId);
 	document.getElementById('matchResult').textContent = '';
 	if (response.ok) {
 		const match = await response.json();
@@ -40,7 +40,7 @@ async function fetchAllUsers() {
 	const UserId1 = document.getElementById('idUser1').value;
 	const UserId2 = document.getElementById('idUser2').value;
 	if (!UserId1 || !UserId2) return;
-	const response = await fetch('/getAllUsers/');
+	const response = await fetch('/api/getAllUsers/');
 	if (response.ok) {
 		const users = await response.json();
 		document.UserId1.value = JSON.stringify(users, null, 1);
