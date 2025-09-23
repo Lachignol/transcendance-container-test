@@ -1,17 +1,19 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
 
-const test = async (request: FastifyRequest, reply: FastifyReply) => {
+const homePage = async (request: FastifyRequest, reply: FastifyReply) => {
 
-	return reply.type('text/html').send(
+	return reply.status(200).send(
 		`
 	<h1>Home-page</h1>
-	<a href="createUser/" data-link>create User</a>
-	<a href="createMatch/" data-link>create Match</a>
-	<a href="login/" data-link>login</a>
-	<a href="signUp/" data-link>signup</a>
-	<a href="protected/" data-link>protected page</a>
-	<a href="test" data-link>not found</a>
-	<a href="http://google.com">google</a>
+	<ul>
+	<li><a href="createUser/" data-link>Users</a></li>
+	<li><a href="createMatch/" data-link>Match</a></li>
+	<li><a href="login/" data-link>login</a></li>
+	<li><a href="signUp/" data-link>signup</a></li>
+	<li><a href="protected/" data-link>protected page</a></li>
+	<li><a href="test" data-link>not exisisting link</a></li>
+	<li><a href="http://google.com">google</a></li>
+	<ul>
 `)
 }
 
@@ -26,7 +28,7 @@ const testRouting = async (Request: FastifyRequest, reply: FastifyReply) => {
 }
 
 export {
-	test,
+	homePage,
 	testMiddleware,
 	testRouting,
 };
