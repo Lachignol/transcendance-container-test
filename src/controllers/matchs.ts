@@ -5,21 +5,30 @@ const sendFormCreateMatch = async (request: FastifyRequest, reply: FastifyReply)
 	<h1>Tester les routes API Match</h1>
 
 	<h2>Formulaire Création Match (POST)</h2>
-	<form id="createMatchForm" method="post" action="/createMatch/">
-		<label>ID user1 : <input type="number" id="idUser1" name="idUser1" required /></label>
-		<label>ID user2 : <input type="number" id="idUser2" name="idUser2" required /></label>
-		<pre id="usersResult"></pre>
-		<button type="submit">Créer</button>
+
+	<button onclick='fetchAllUsers()'>upload Users</button>
+	<form id="createMatchForm" method="post" action="/api/createMatch/">
+	<label>ID user1 :</label>
+	<select name="idUser1" id="idUser1" required>
+	<option value="">--Please choose an user--</option>
+	</select>
+	</label>
+	<label>ID user2 :</label>
+	<select name="idUser2" id="idUser2" required>
+	<option value="">--Please choose an user--</option>
+	</select>
+	<pre id="usersResult"></pre>
+	<button type="submit">Créer</button>
 	</form>
 
 	<h2>Set Has Finish match (PUT)</h2>
-	<form method="post" action="/setHasFinishedMatch/">
+	<form method="post" action="/api/setHasFinishedMatch/">
 		<label>ID : <input type="number" name="id" required /></label><br />
 		<button type="submit">Modifier</button>
 	</form>
 
 	<h2>Set Has Cancel match (PUT)</h2>
-	<form method="post" action="/setHasCancelMatch/">
+	<form method="post" action="/api/setHasCancelMatch/">
 		<label>ID : <input type="number" name="id" required /></label><br />
 		<button type="submit">Modifier</button>
 	</form>

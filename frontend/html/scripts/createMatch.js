@@ -1,5 +1,3 @@
-window.load(fetchAllUsers);
-
 async function delMatch(match) {
 	const matchId = match.id;
 	if (!matchId) return;
@@ -35,15 +33,22 @@ async function fetchMatch() {
 	}
 }
 
-
 async function fetchAllUsers() {
-	const UserId1 = document.getElementById('idUser1').value;
-	const UserId2 = document.getElementById('idUser2').value;
-	if (!UserId1 || !UserId2) return;
+	const select1 = document.getElementById("idUser1");
+	const select2 = document.getElementById('idUser2');
+
+	if (!select1 || !select2) {
+		console.log("in return")
+		return;
+	}
 	const response = await fetch('/api/getAllUsers/');
 	if (response.ok) {
 		const users = await response.json();
-		document.UserId1.value = JSON.stringify(users, null, 1);
+		users.forEach((user) => {
+			select1.innerHTML += `<option value='${user.id}'>${user.id}</option >`
+			select2.innerHTML += `<option value='${user.id}'>${user.id}</option >`
+		}
+		);
 	}
 	else if (response.status == 404) {
 		document.getElementById('usersResult').textContent = 'User not found';

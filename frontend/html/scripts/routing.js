@@ -52,7 +52,7 @@ const routing = async (url) => {
 			content = await response.text()
 			break
 		default:
-			content = `<p>Error ou page je sais pas<p>`
+			content = `<p>404 not found<p>`
 
 	}
 	body.innerHTML = content
