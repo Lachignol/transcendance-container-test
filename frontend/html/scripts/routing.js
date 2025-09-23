@@ -17,10 +17,27 @@ window.addEventListener('DOMContentLoaded', function() {
 })
 
 
+//gerer la creation du header dynamique aussi je pense
+//
+// function createHead(url) {
+// 	formatUrl = url.replaceAll('/', '')
+//
+// 	console.log(formatUrl)
+//
+// 	headToReturn = `<meta charset="UTF-8" />
+// 	<title>${formatUrl}</title>
+// 	<script src="/scripts/routing.js" defer></script>
+// 	<script src='/scripts/${formatUrl}.js'></script>`
+//
+// 	return headToReturn
+// }
+
+
 const routing = async (url) => {
 	let body = document.getElementById('body')
 	let content = ''
 	let response;
+
 	switch (url) {
 		case "/":
 			response = await fetch('/api/');
@@ -43,6 +60,10 @@ const routing = async (url) => {
 			response = await fetch('/api/signUp/');
 			content = await response.text()
 			break
+		case "/websocketPage/":
+			response = await fetch('/api/websocketPage/');
+			content = await response.text()
+			break
 		case "/protected/":
 			response = await fetch('/api/protected/');
 			content = await response.text()
@@ -55,6 +76,6 @@ const routing = async (url) => {
 			content = `<p>404 not found<p>`
 
 	}
-	body.innerHTML = content
+	body.innerHTML = content;
 }
 

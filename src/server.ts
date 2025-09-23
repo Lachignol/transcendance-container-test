@@ -6,6 +6,7 @@ import { init_app_database } from './init/init_database.ts'
 import { init_app_public_repository, init_app_routes, init_app_upload_dir } from './init/init_repositories.ts'
 import { init_app_authentification } from './init/init_auth.ts'
 import { init_app_OAuth2 } from './init/init_OAuth.ts'
+import { init_app_websocket } from './init/init_websocket.ts'
 import { run_app } from './init/run_server.ts'
 
 // On obtient le chemin complet du fichier courant
@@ -31,6 +32,7 @@ init_app_upload_dir(uploadsDir);
 init_app_authentification(app);
 init_app_upload_middleware(app);
 init_app_OAuth2(app);
+init_app_websocket(app);
 run_app(app);
 
 

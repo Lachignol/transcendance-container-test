@@ -1,6 +1,6 @@
 PROJECT_NAME=container
-SERVICE=
-CMD=
+SERVICE=app
+CMD=sh
 
 .PHONY: build up down clean logs exec
 
