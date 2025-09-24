@@ -1,5 +1,4 @@
 
-
 async function delUser(user) {
 	const userId = user.id;
 	if (!userId) return;
@@ -35,4 +34,5 @@ async function fetchUser() {
 		document.getElementById('userResult').textContent = 'Erreur: ' + response.message;
 	}
 }
+
 

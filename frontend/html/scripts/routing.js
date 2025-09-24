@@ -19,24 +19,31 @@ window.addEventListener('DOMContentLoaded', function() {
 
 //gerer la creation du header dynamique aussi je pense
 //
-// function createHead(url) {
-// 	formatUrl = url.replaceAll('/', '')
 //
-// 	console.log(formatUrl)
-//
-// 	headToReturn = `<meta charset="UTF-8" />
-// 	<title>${formatUrl}</title>
-// 	<script src="/scripts/routing.js" defer></script>
-// 	<script src='/scripts/${formatUrl}.js'></script>`
-//
-// 	return headToReturn
-// }
+function createTitleHead(url) {
+	formatUrl = url.replaceAll('/', '')
+
+	head = `<meta charset="UTF-8" />
+	<title>${formatUrl}</title>
+	<script  src="/scripts/routing.js" ></script>`
+	return head
+}
+function createScript(url) {
+	formatUrl = url.replaceAll('/', '')
+
+	const script = document.createElement('script')
+	script.src = `/scripts/${formatUrl}.js`
+	return script
+}
 
 
 const routing = async (url) => {
-	let body = document.getElementById('body')
-	let content = ''
+	let body = document.getElementById('body');
+	let head = document.getElementById('head');
+	let content = '';
 	let response;
+	const script = createScript(url);
+	const headContent = createTitleHead(url);
 
 	switch (url) {
 		case "/":
@@ -76,6 +83,9 @@ const routing = async (url) => {
 			content = `<p>404 not found<p>`
 
 	}
+
+	head.innerHTML = headContent
 	body.innerHTML = content;
+	body.appendChild(script)
 }
 
