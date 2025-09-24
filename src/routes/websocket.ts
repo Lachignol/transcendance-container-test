@@ -5,5 +5,4 @@ import { sendWebsocketPage, websocketTest } from '../controllers/websocket.ts'
 export default async (app: FastifyInstance) => {
 	app.get('/websocketPage/', sendWebsocketPage)
 	app.get('/websocket/', { websocket: true }, websocketTest);
-
 }

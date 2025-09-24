@@ -1,12 +1,14 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
-import websocket from '@fastify/websocket'
+import type { WebSocket } from '@fastify/websocket';
 
 
-const websocketTest = async (socket, request: FastifyRequest) => {
-	socket.on('message', message => {
-		// message.toString() === 'hi from client'
-		socket.send('hi from server')
-	})
+function websocketTest(connection, request: FastifyRequest) {
+
+	connection.socket.on("message", message => {
+		// Echo the message back
+		connection.socket.send("Echo: " + message);
+
+	});
 
 }
 

@@ -30,7 +30,6 @@ function createTitleHead(url) {
 }
 function createScript(url) {
 	formatUrl = url.replaceAll('/', '')
-
 	const script = document.createElement('script')
 	script.src = `/scripts/${formatUrl}.js`
 	return script
@@ -42,7 +41,7 @@ const routing = async (url) => {
 	let head = document.getElementById('head');
 	let content = '';
 	let response;
-	const script = createScript(url);
+	let script
 	const headContent = createTitleHead(url);
 
 	switch (url) {
@@ -53,31 +52,38 @@ const routing = async (url) => {
 		case "/createUser/":
 			response = await fetch('/api/createUser/');
 			content = await response.text()
+			script = createScript(url);
 			break
 		case "/createMatch/":
 			response = await fetch('/api/createMatch/');
 			content = await response.text()
+			script = createScript(url);
 			break
-
 		case "/login/":
 			response = await fetch('/api/login/');
 			content = await response.text()
+			script = createScript(url);
 			break
 		case "/signUp/":
 			response = await fetch('/api/signUp/');
 			content = await response.text()
+			script = createScript(url);
 			break
 		case "/websocketPage/":
 			response = await fetch('/api/websocketPage/');
 			content = await response.text()
+			script = createScript(url);
 			break
 		case "/protected/":
 			response = await fetch('/api/protected/');
 			content = await response.text()
+			script = createScript(url);
+			break
 			break
 		case "/test":
 			response = await fetch('/api/test');
 			content = await response.text()
+			script = createScript(url);
 			break
 		default:
 			content = `<p>404 not found<p>`
@@ -86,6 +92,7 @@ const routing = async (url) => {
 
 	head.innerHTML = headContent
 	body.innerHTML = content;
-	body.appendChild(script)
+	if (script)
+		body.appendChild(script)
 }
 

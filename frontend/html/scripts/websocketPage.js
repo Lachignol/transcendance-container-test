@@ -2,6 +2,7 @@ const ws = new WebSocket('/api/websocket/');
 const messages = document.getElementById('messages');
 
 ws.onmessage = function(event) {
+	console.log("receved")
 	const messageDiv = document.createElement('div');
 	messageDiv.textContent = event.data;
 	messages.appendChild(messageDiv);
@@ -16,8 +17,8 @@ function sendMessage() {
 	}
 }
 
-// document.getElementById('messageInput').addEventListener('keypress', function(e) {
-// 	if (e.key === 'Enter') {
-// 		sendMessage();
-// 	}
-// });
+document.getElementById('messageInput').addEventListener('keypress', function(e) {
+	if (e.key === 'Enter') {
+		sendMessage();
+	}
+});

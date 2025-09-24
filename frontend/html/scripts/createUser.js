@@ -24,7 +24,9 @@ async function fetchUser() {
 	if (response.ok) {
 		const user = await response.json();
 		document.getElementById('userResult').textContent = JSON.stringify(user, null, 1);
-		userResult.innerHTML += `<br><img src="/api/uploads/${user.picture}" alt='userPicture' />`;
+		if (user.picture) {
+			userResult.innerHTML += `<br><img src="/api/uploads/${user.picture}" alt='userPicture' />`;
+		}
 		document.getElementById('userResult').innerHTML += `<button type="button" onclick='delUser(${JSON.stringify(user)})'>Delete</button>`;
 	}
 	else if (response.status == 404) {
