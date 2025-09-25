@@ -23,6 +23,7 @@ const app = fastify({ logger: true })
 
 
 init_app_database(app);
+init_app_websocket(app);
 init_reading_body_request(app);
 init_reading_multipartFormData(app);
 init_cors(app);
@@ -32,7 +33,6 @@ init_app_upload_dir(uploadsDir);
 init_app_authentification(app);
 init_app_upload_middleware(app);
 init_app_OAuth2(app);
-init_app_websocket(app);
 run_app(app);
 
 

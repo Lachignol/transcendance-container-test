@@ -11,7 +11,7 @@ import { promises as fsPromises } from 'fs';
 
 export function init_cors(app: FastifyInstance) {
 	app.register(cors, {
-		origin: "*",
+		origin: "http://localhost:8080",
 		credentials: true,
 	})
 

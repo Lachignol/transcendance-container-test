@@ -1,15 +1,24 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
-import type { WebSocket } from '@fastify/websocket';
-
 
 function websocketTest(connection, request: FastifyRequest) {
 
-	connection.socket.on("message", message => {
-		// Echo the message back
-		connection.socket.send("Echo: " + message);
+	console.log("dans ma fonction");
+	connection.on("message", message => {
+		try {
+			console.log("bonjour");
 
+
+			const text = message.toString();
+			console.log(text);
+			// Check if connection is still open before sending
+			if (connection.readyState === connection.OPEN) {
+				connection.send(`Echo: ${text}`);
+			}
+
+		} catch (error) {
+			console.error('Error processing message:', error);
+		}
 	});
-
 }
 
 
