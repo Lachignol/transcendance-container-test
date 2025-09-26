@@ -1,8 +1,7 @@
 const ws = new WebSocket('/api/websocketTest/')
-// const messages = document.getElementById('messages');
+const messages = document.getElementById('messages');
+
 ws.onmessage = function(event) {
-	console.log("receved")
-	console.log(event.data)
 	const messageDiv = document.createElement('div');
 	messageDiv.textContent = event.data;
 	messages.appendChild(messageDiv);

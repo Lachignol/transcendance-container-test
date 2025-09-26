@@ -74,11 +74,15 @@ const routing = async (url) => {
 			content = await response.text()
 			script = createScript(url);
 			break
+		case "/chatPage/":
+			response = await fetch('/api/chatPage/');
+			content = await response.text()
+			script = createScript(url);
+			break
 		case "/protected/":
 			response = await fetch('/api/protected/');
 			content = await response.text()
 			script = createScript(url);
-			break
 			break
 		case "/test":
 			response = await fetch('/api/test');

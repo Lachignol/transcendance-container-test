@@ -10,6 +10,7 @@ const homePage = async (request: FastifyRequest, reply: FastifyReply) => {
 	<li><a href="createMatch/" data-link>Match</a></li>
 	<li><a href="login/" data-link>login</a></li>
 	<li><a href="signUp/" data-link>signup</a></li>
+	<li><a href="chatPage/" data-link>chat</a></li>
 	<li><a href="protected/" data-link>protected page</a></li>
 	<li><a href="websocketPage/" data-link>websocket page</a></li>
 	<li><a href="untrucquiexistepas/" data-link>not exisisting link</a></li>
