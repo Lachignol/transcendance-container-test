@@ -1,14 +1,7 @@
+const myConnection = new WebSocket(`/api/connectToChat/`);
 let ws = null;
 let messages = document.getElementById('messages');
-
 fetchAllUsers()
-
-document.getElementById('messageInput').addEventListener('keypress', function(e) {
-	if (e.key === 'Enter') {
-		sendMessage();
-	}
-
-})
 
 async function fetchAllUsers() {
 	const select1 = document.getElementById("userId");
@@ -21,7 +14,8 @@ async function fetchAllUsers() {
 	if (response.ok) {
 		const users = await response.json();
 		users.forEach((user) => {
-			select1.innerHTML += `<option value='${user.id}'>${user.id}</option >`
+			select1.innerHTML += `
+ <li><button onclick="openConnectionWithUser(${user.id})">chat with ${user.name}</button> </li>`
 		}
 		);
 	}
@@ -33,25 +27,36 @@ async function fetchAllUsers() {
 	}
 }
 
+async function openConnectionWithUser(userToSend) {
+	ws = new WebSocket(`/api/chat/${userToSend}/`)
+}
 
-if (ws != null) {
-	ws.onmessage = function(event) {
-		const messageDiv = document.createElement('div');
-		messageDiv.textContent = event.data;
-		messages.appendChild(messageDiv);
-		messages.scrollTop = messages.scrollHeight;
-	};
+
+myConnection.onmessage = function(event) {
+	const messageDiv = document.createElement('div');
+	messageDiv.textContent = event.data;
+	messages.appendChild(messageDiv);
+	messages.scrollTop = messages.scrollHeight;
 };
 
 function sendMessage() {
-	let userTosend = document.getElementById('userId').value
-	if (userTosend != null) {
-		ws = new WebSocket(`/api/chat/${userTosend}/`)
-		const input = document.getElementById('messageInput');
-		if (input.value) {
-			ws.send(input.value);
-			input.value = '';
-		}
+	const input = document.getElementById('messageInput');
+	if (!ws) {
+		input.value = "Click on one user";
+		return;
+	}
+
+	if (input.value) {
+		ws.send(input.value);
+		input.value = '';
 	}
 }
 
+
+
+document.getElementById('messageInput').addEventListener('keypress', function(e) {
+	if (e.key === 'Enter') {
+		sendMessage();
+	}
+
+})
